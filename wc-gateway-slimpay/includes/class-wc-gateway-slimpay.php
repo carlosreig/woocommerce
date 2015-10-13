@@ -15,7 +15,6 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	private static $KEY_ACTIVE_MANDATE = '_slimpay_active_mandate';
 
 	private $hapiClient;
-	private $entryPoint;
 
 	/**
 	 * Constructor for the gateway.
@@ -189,7 +188,7 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 		$this->hapiClient = new Http\HapiClient(
 			$this->hapi_url(),
 			'/',
-			self::$PROD_URL . '/alps/v1',
+			'https://api.slimpay.net/alps/v1',
 			new Http\Auth\Oauth2BasicAuthentication(
 				'/oauth/token',
 				$this->appid,
@@ -430,18 +429,16 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	 * @return Mandate Resource
 	 */
 	private function retrieve_mandate($rum) {
-
 		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
-		$res = $hapiClient->getEntryPointResource();
 		
 		// Data for get-mandates
-		 $requestData = array('creditorReference' => $this->creditor, 'rum' => $rum);
+		$urlVariables = array('creditorReference' => $this->creditor, 'rum' => $rum);
 
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-mandates');
 
 		try {
-			return $hapiClient->sendFollow(new Http\Follow($rel, 'GET', $requestData), $res);
+			return $hapiClient->sendFollow(new Http\Follow($rel, 'GET', $urlVariables));
 		} catch (Exception $e) {
 			return null;
 		}
@@ -457,9 +454,9 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
-		$res = $hapiClient->getEntryPointResource();
+		
 		// Data for create-orders
-		$requestData = new Http\JsonBody(array(
+		$jsonBody = new Http\JsonBody(array(
 				'started' => true,
 				'creditor' => array('reference' => $this->creditor),
 				'subscriber' => array('reference' => $subscriberReference),
@@ -493,10 +490,10 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 		// Follow the create-orders link
 		// URL: /orders
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#create-orders');
-		$follow = new Http\Follow($rel, 'POST', null, $requestData);
+		$follow = new Http\Follow($rel, 'POST', null, $jsonBody);
 		try {
-			return $hapiClient->sendFollow($follow, $res);
-		} catch (HapiClient\Exception\HttpException $e) {
+			return $hapiClient->sendFollow($follow);
+		} catch (\HapiClient\Exception\HttpException $e) {
 			throw new Exception($this->process_http_exception($e));
 		}
 	}
@@ -509,10 +506,9 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	private function create_direct_debit($rum, $amount, $paymentReference = '') {
 		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
-		$res = $hapiClient->getEntryPointResource();
 		
 		// Data for create-direct-debits
-		$requestData = new Http\JsonBody(array(
+		$jsonBody = new Http\JsonBody(array(
 				'amount' => $amount,
 				'label' => $this->format_parameters(array('creditor' => $this->creditor), $this->debit_label),
 				'paymentReference' => $paymentReference,
@@ -523,10 +519,10 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 		// Follow the create-direct-debits link
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#create-direct-debits');
-		$follow = new Http\Follow($rel, 'POST', null, $requestData);
+		$follow = new Http\Follow($rel, 'POST', null, $jsonBody);
 		try {
-			return $hapiClient->sendFollow($follow, $res);
-		} catch (SlimPay\Exception\HttpException $e) {
+			return $hapiClient->sendFollow($follow);
+		} catch (\HapiClient\Exception\HttpException $e) {
 			throw new Exception($this->process_http_exception($e));
 		}
 	}
@@ -538,17 +534,16 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	private function retrieve_direct_debit($id) {
 		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
-		$res = $hapiClient->getEntryPointResource();
 		
 		// Data for get-direct-debits
-		$requestData = array('id' => $id);
+		$urlVariables = array('id' => $id);
 
 		// Follow the get-mandates link
 		// URL: /direct-debits{?id}
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-direct-debits');
-		$follow = new Http\Follow($rel, 'GET', $requestData);
+		$follow = new Http\Follow($rel, 'GET', $urlVariables);
 		try {
-			return $hapiClient->sendFollow($follow, $res);
+			return $hapiClient->sendFollow($follow);
 		} catch (Exception $e) {
 			return null;
 		}
@@ -561,10 +556,9 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	private function retrieve_slimpay_order($order_reference) {
 		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
-		$res = $hapiClient->getEntryPointResource();
 
 		// Data for get-orders
-		$requestData = array(
+		$urlVariables = array(
 			'creditorReference' => $this->creditor,
 			'reference' => $order_reference
 		);
@@ -572,9 +566,9 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 		// Follow the get-orders link
 		// URL: /orders
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-orders');
-		$follow = new Http\Follow($rel, 'GET', $requestData);
+		$follow = new Http\Follow($rel, 'GET', $urlVariables);
 		try {
-			return $hapiClient->sendFollow($follow, $res);
+			return $hapiClient->sendFollow($follow);
 		} catch (Exception $e) {
 			return null;
 		}
@@ -644,7 +638,7 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	 * @return 	The message from the response if existing.
 	 *			The HTTP status code and reason phrase otherwise.
 	 */
-	private function process_http_exception(HapiClient\Exception\HttpException $e) {
+	private function process_http_exception(\HapiClient\Exception\HttpException $e) {
 		$message = null;
 
 		try {
