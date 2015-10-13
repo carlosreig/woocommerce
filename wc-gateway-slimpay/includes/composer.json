@@ -1,0 +1,5 @@
+{
+	"require": {
+		"slimpay/hapiclient":"1.0.*"
+	}
+}

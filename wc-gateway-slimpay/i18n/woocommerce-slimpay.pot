@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-13 15:02+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../wc-gateway-slimpay.php:37
+#, php-format
+msgid "%sSlimPay Gateway for WooCommerce is inactive.%s "
+msgstr ""
+
+#: ../wc-gateway-slimpay.php:38
+#, php-format
+msgid ""
+"The %sWooCommerce plugin%s must be active for SlimPay Gateway for "
+"WooCommerce to work. "
+msgstr ""
+
+#: ../wc-gateway-slimpay.php:39
+#, php-format
+msgid "Please %sinstall & activate WooCommerce%s"
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:53
+#: ../includes/class-wc-gateway-slimpay.php:256
+#: ../includes/class-wc-gateway-slimpay.php:285
+#: ../includes/class-wc-gateway-slimpay.php:287
+#: ../includes/class-wc-gateway-slimpay.php:303
+#: ../includes/slimpay-form-fields.php:17
+msgid "SlimPay"
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:54
+msgid "Pay online directly from your bank account."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:149
+#, php-format
+msgid "SlimPay does not support your store currency (%s)."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:159
+#, php-format
+msgid "Please configure your SlimPay credentials in %s"
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:252
+msgid "No order using SlimPay as payment method was found."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:253
+msgid "If you did make an order, your session may have timed out."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:254
+#, php-format
+msgid "Go back to the <a href=\"%s\">home page</a>."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:300
+msgid "The mandate signature was not completed."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:301
+#, php-format
+msgid "Go back to the <a href=\"%s\">checkout</a>."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:605
+msgid "Unable to charge!"
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:636
+#, php-format
+msgid "The mandate of the user ID \"%s\" is no longer active."
+msgstr ""
+
+#: ../includes/class-wc-gateway-slimpay.php:640
+#, php-format
+msgid "The mandate of the order ID \"%s\" is no longer active."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:8
+msgid "Enable/Disable"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:10
+msgid "Enable SlimPay"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:14
+msgid "Title"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:16
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:21
+msgid "Description"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:23
+msgid "Payment method description that the customer will see on your checkout."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:24
+msgid "Pay by direct debit. You need your bank account number and your phone."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:28
+msgid "Description for an active mandate"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:30
+msgid ""
+"Payment method description that the customer will see on your checkout in "
+"case he already signed a mandate (parameters: %rum%, %date%)."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:31
+msgid ""
+"The amount will be debited directly from your account using the mandate "
+"<strong>%rum%</strong> you signed on %date%."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:35
+msgid "Confirmation of the debit order"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:37
+msgid ""
+"Confirmation that the customer will see after completing the checkout "
+"(parameters: %amount%, %date%, %label%)."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:38
+msgid ""
+"Your account will be charged %amount% on %date%. It will appear in your bank "
+"statement as \"%label%\"."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:42
+msgid "Debit order label"
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:44
+msgid ""
+"The debit description that will appear in the customer's bank account "
+"statement (parameters: %creditor%)."
+msgstr ""
+
+#: ../includes/slimpay-form-fields.php:45
+msgid "%creditor%"
+msgstr ""
