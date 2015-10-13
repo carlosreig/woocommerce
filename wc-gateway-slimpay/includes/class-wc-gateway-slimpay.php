@@ -186,9 +186,6 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 		require_once __DIR__ . '/vendor/autoload.php';
 
-		// $this->hapiClient = new SlimPay\Client($this->hapi_url(), self::$PROD_URL . '/alps/v1');
-		// $this->hapiClient->oauth2($this->appid, $this->appsecret);
-		// $this->entryPoint = $this->hapiClient->request(new SlimPay\Request('/'));
 		$this->hapiClient = new Http\HapiClient(
 			$this->hapi_url(),
 			'/',
@@ -430,20 +427,16 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 	/**
 	 * Get a mandate by its rum
-	 * @return SlimPay\Resource
+	 * @return Mandate Resource
 	 */
 	private function retrieve_mandate($rum) {
 
-		  // Retrieve the entry point resource
-
+		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
 		$res = $hapiClient->getEntryPointResource();
-		//   // Data for get-mandates
+		
+		// Data for get-mandates
 		 $requestData = array('creditorReference' => $this->creditor, 'rum' => $rum);
-		//
-		//   // Follow the get-mandates link
-		//   // URL: /mandates{?creditorReference,rum}
-		// $follow = new SlimPay\Follow('get-mandates', 'GET', $requestData, 'urlencoded');
 
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-mandates');
 
@@ -457,16 +450,15 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	/**
 	 * Send the user to the SlimPay checkout for a mandate signature
 	 * during the process_payment.
-	 * @return SlimPay\Resource
+	 * @return Order Resource
 	 */
 	private function create_mandate_signature($subscriberReference, $order) {
-
 		$order_id = $order->id;
 
-		  // Retrieve the entry point resource
+		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
 		$res = $hapiClient->getEntryPointResource();
-		  // Data for create-orders
+		// Data for create-orders
 		$requestData = new Http\JsonBody(array(
 				'started' => true,
 				'creditor' => array('reference' => $this->creditor),
@@ -498,8 +490,8 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 			)
 		);
 
-		  // Follow the create-orders link
-		  // URL: /orders
+		// Follow the create-orders link
+		// URL: /orders
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#create-orders');
 		$follow = new Http\Follow($rel, 'POST', null, $requestData);
 		try {
@@ -512,14 +504,14 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 	/**
 	 * Create a direct debit for the given $user_id to
 	 * be processed using the given mandate reference.
-	 * @return SlimPay\Resource
+	 * @return Direct Debit Resource
 	 */
 	private function create_direct_debit($rum, $amount, $paymentReference = '') {
-
-		  // Retrieve the entry point resource
+		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
 		$res = $hapiClient->getEntryPointResource();
-		  // Data for create-direct-debits
+		
+		// Data for create-direct-debits
 		$requestData = new Http\JsonBody(array(
 				'amount' => $amount,
 				'label' => $this->format_parameters(array('creditor' => $this->creditor), $this->debit_label),
@@ -529,8 +521,7 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 			)
 		);
 
-		  // Follow the create-direct-debits link
-		  // URL: /direct-debits
+		// Follow the create-direct-debits link
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#create-direct-debits');
 		$follow = new Http\Follow($rel, 'POST', null, $requestData);
 		try {
@@ -542,18 +533,18 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 	/**
 	 * Get a direct debit by its ID
-	 * @return SlimPay\Resource
+	 * @return Direct Debit Resource
 	 */
 	private function retrieve_direct_debit($id) {
-
-		  // Retrieve the entry point resource
+		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
 		$res = $hapiClient->getEntryPointResource();
-		  // Data for get-direct-debits
+		
+		// Data for get-direct-debits
 		$requestData = array('id' => $id);
 
-		  // Follow the get-mandates link
-		  // URL: /direct-debits{?id}
+		// Follow the get-mandates link
+		// URL: /direct-debits{?id}
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-direct-debits');
 		$follow = new Http\Follow($rel, 'GET', $requestData);
 		try {
@@ -565,21 +556,21 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 	/**
 	 * Get an order by its reference
-	 * @return SlimPay\Resource
+	 * @return Order Resource
 	 */
 	private function retrieve_slimpay_order($order_reference) {
-		  // Retrieve the entry point resource
+		// Retrieve the entry point resource
 		$hapiClient = $this->hapi_client();
 		$res = $hapiClient->getEntryPointResource();
 
-		  // Data for get-orders
+		// Data for get-orders
 		$requestData = array(
 			'creditorReference' => $this->creditor,
 			'reference' => $order_reference
 		);
 
-		  // Follow the get-orders link
-		  // URL: /orders
+		// Follow the get-orders link
+		// URL: /orders
 		$rel = new Hal\CustomRel('https://api.slimpay.net/alps#get-orders');
 		$follow = new Http\Follow($rel, 'GET', $requestData);
 		try {
@@ -661,7 +652,7 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 
 			if (isset($body['message']))
 				$message = $body['message'] . (isset($body['code']) ? ' (' . $body['code'] . ')' : '');
-		} catch (\Exception $e) { }
+		} catch (\Exception $ignored) { }
 
 		if (!$message)
 			$message = $e->getMessage() . '<br />' . $e->getResponse()->getBody();
