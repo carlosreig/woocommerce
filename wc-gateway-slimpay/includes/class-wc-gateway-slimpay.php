@@ -48,7 +48,7 @@ class WC_Gateway_SlimPay extends WC_Payment_Gateway {
 		// Method settings
 		$this->id                 = 'slimpay';
 		$this->icon               = apply_filters('woocommerce_slimpay_icon',
-										plugins_url( 'assets/images/slimpay.png', __FILE__ ));
+										plugins_url( 'assets/images/slimpay.png', dirname(__FILE__) ));
 		$this->has_fields         = false;
 		$this->method_title       = __( 'SlimPay', 'woocommerce-slimpay' );
 		$this->method_description = __( 'Pay online directly from your bank account.', 'woocommerce-slimpay' );
