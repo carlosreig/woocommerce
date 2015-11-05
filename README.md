@@ -7,8 +7,8 @@
 
 # Installation
 
-1. Copy the wc-gateway-slimpay folder in wp-content/plugins.
-2. Open wc-gateway-slimpay/includes/slimpay-credentials.php.
+1. Copy the content of the folder to wp-content/plugins.
+2. Open includes/slimpay-credentials.php.
 3. Configure your application credentials.
 4. Activate the SlimPay Gateway for WooCommerce in the WordPress plugins configuration page.
 

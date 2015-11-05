@@ -3,7 +3,7 @@
  * Plugin Name: SlimPay Gateway for WooCommerce
  * Plugin URI: http://slimpay.net/
  * Description: The SlimPay Gateway for WooCommerce. Allow your customers to pay by direct debit from their bank account.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: SlimPay (youssef@slimpay.com)
  * Tested up to: 4.3.1
  *
