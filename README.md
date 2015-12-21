@@ -20,7 +20,7 @@ No notification URL is needed but if required, use the URL to your home page.
 
 # Credentials
 
-You can get test credentials at http://www.slimpay.net/rest-hapi-crawler/login.php?signup
+You can get developer credentials at https://dev.slimpay.com/hapi/login?signup
 
 You can get production credentials from the SlimPay sales/support team.
 
